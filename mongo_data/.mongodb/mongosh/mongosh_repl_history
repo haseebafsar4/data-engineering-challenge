@@ -1,0 +1,185 @@
+exit
+... })
+...   raw_data: "{}"
+...   event_timestamp: new Date(),
+...   event_type: "login",
+...   user_id: 1,
+...   event_id: "1",
+db.events.insertOne({
+... })
+...   raw_data: "{}"
+...   event_timestamp: new Date(),
+...   event_type: "login",
+...   user_id: 1,
+...   event_id: "1",
+db.events.insertOne({
+LIMIT 5;
+ORDER BY event_timestamp DESC
+FROM silver_events
+SELECT *
+LIMIT 5;
+ORDER BY event_timestamp DESC
+FROM silver_events
+SELECT *
+})
+  raw_data: "{}"
+  event_timestamp: new Date(),
+  event_type: "login",
+  user_id: 1,
+  event_id: "1",
+db.events.insertOne({
+exit
+db.events.insertOne({ user_id: 6, event: "add_to_cart", timestamp: new Date() })
+use test
+exit
+db.events.insertOne({ user_id: 6, event: "add_to_cart", timestamp: new Date() })
+use test
+db.events.insertOne({ user_id: 6, event: "add_to_cart", timestamp: new Date() })
+db.events.find().pretty()
+])
+  { user_id: 2, event: "logout", timestamp: new Date() }
+  { user_id: 1, event: "login", timestamp: new Date() },
+db.events.insertMany([
+use test
+exit
+db.events.insertOne({ user_id: 5, event: "login", timestamp: new Date() })
+exit
+db.events.insertOne({ user_id: 4, event: "login", timestamp: new Date() })
+exit
+db.events.insertOne({ user_id: 3, event: "login", timestamp: new Date() })
+})
+  timestamp: new Date()
+  event: "login",
+  user_id: 3,
+db.events.insertOne({
+use test
+db.events.find().forEach(doc => printjson(doc))
+use test
+exit
+})
+  "timestamp": new Date()
+  "event": "logout",
+  "user_id": 2,
+db.events.insertOne({
+})
+  "timestamp": new Date()
+  "event": "login",
+  "user_id": 1,
+db.events.insertOne({
+db.events.deleteMany({})
+use test
+exit
+clear
+rs.status()
+exit
+});
+  timestamp: new Date()
+  event: "debug_test",
+  user_id: 1234,
+db.events.insertOne({
+});
+  timestamp: new Date()
+  event: "final_working_test",
+  user_id: 888,
+db.events.insertOne({
+exit
+});
+  timestamp: new Date()
+  event: "auth_fixed_final",
+  user_id: 500,
+db.events.insertOne({
+exit
+});
+  timestamp: new Date()
+  event: "replica_fixed_test",
+  user_id: 400,
+db.events.insertOne({
+exit
+rs.status()
+rs.reconfig(cfg, { force: true });
+cfg.members[0].host = "de_mongo:27017";
+cfg = rs.conf();
+rs.conf()
+});
+  timestamp: new Date()
+  event: "stream_test",
+  user_id: 100,
+db.events.insertOne({
+use test;
+exit
+});
+  timestamp: new Date()
+  event: "final_test",
+  user_id: 99,
+db.events.insertOne({
+use test;
+exit
+ls
+db.events.find().pretty();
+db.events.insertOne({ user_id: 3, event: "checkout", timestamp: new Date() });
+use test;
+exit
+docker exec -it de_mongo mongosh -u mongo_user -p mongo_pass --authenticationDatabase admin
+});
+  roles: [ { role: "root", db: "admin" } ]
+  pwd: "mongo_pass",
+  user: "mongo_user",
+use admin;
+rs.status(); // confirm this node is PRIMARY
+exit
+db.events.insertOne({ user_id: 3, event: "checkout", timestamp: new Date() })
+use test
+mongosh -u mongo_user -p mongo_pass --authenticationDatabase admin
+"stateStr": "PRIMARY"
+rs.status()
+})
+  members: [{ _id: 0, host: "localhost:27017" }]
+  _id: "rs0",
+rs.initiate({
+admin>
+  4 |
+  3 | db.events.insertOne({ user_id: 3, event: "checkout", timestamp: new Date() })
+  2 | use test
+    |           ^
+> 1 | mongosh -u mongo_user -p mongo_pass --authenticationDatabase admin
+SyntaxError: Missing semicolon. (1:10)
+Uncaught:
+...
+... db.events.insertOne({ user_id: 3, event: "checkout", timestamp: new Date() })
+... use test
+admin> mongosh -u mongo_user -p mongo_pass --authenticationDatabase admin
+MongoServerError[NotWritablePrimary]: not primary
+...
+... })
+...   roles: [ { role: "root", db: "admin" } ]
+...   pwd: "mongo_pass",
+...   user: "mongo_user",
+switched to db admin
+...
+test> use admin
+db.events.insertOne({ user_id: 3, event: "checkout", timestamp: new Date() })
+use test
+mongosh -u mongo_user -p mongo_pass --authenticationDatabase admin
+})
+  roles: [ { role: "root", db: "admin" } ]
+  pwd: "mongo_pass",
+  user: "mongo_user",
+use admin
+db.events.find().pretty()
+db.events.insertOne({ user_id: 3, event: "checkout", timestamp: new Date() })
+test> use test
+exit
+])
+  { user_id: 5, event: "add_to_cart", timestamp: new Date() } 
+  { user_id: 4, event: "page_view", timestamp: new Date() }, 
+  { user_id: 3, event: "login", timestamp: new Date() }, 
+db.events.insertMany([
+use test
+exit
+docker exec -it debezium-kafka-1 kafka-console-consumer --bootstrap-server localhost:9092 --topic mongo.test.events --from-beginning
+])
+  { user_id: 1, event: "add_to_cart", timestamp: new Date() }
+  { user_id: 2, event: "page_view", timestamp: new Date() },
+  { user_id: 1, event: "login", timestamp: new Date() },
+db.events.insertMany([
+use test

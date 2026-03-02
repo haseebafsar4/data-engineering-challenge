@@ -1,0 +1,89 @@
+version: "3.9"
+
+services:
+
+  de_postgres:
+    image: postgres:15
+    container_name: de_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: appdb
+    ports:
+      - "5433:5432"
+    command: >
+      postgres
+      -c wal_level=logical
+      -c max_replication_slots=4
+      -c max_wal_senders=4
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  de_mongo:
+    image: mongo:6.0
+    container_name: de_mongo
+    ports:
+      - "27017:27017"
+    command: >
+      mongod
+      --replSet rs0
+      --bind_ip_all
+      --keyFile /data/keyfile/mongodb-keyfile
+      --auth
+    volumes:
+      - ./mongo/keyfile:/data/keyfile:ro
+      - mongo_data:/data/db
+    restart: unless-stopped
+
+  debezium-zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: debezium-zookeeper-1
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+    ports:
+      - "2181:2181"
+    restart: unless-stopped
+
+  debezium-kafka:
+    image: confluentinc/cp-kafka:7.4.0
+    container_name: debezium-kafka-1
+    depends_on:
+      - debezium-zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: debezium-zookeeper-1:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://debezium-kafka-1:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    ports:
+      - "9092:9092"
+    restart: unless-stopped
+
+
+  debezium-connect:
+    image: debezium/connect:2.2
+    container_name: debezium-connect-1
+    depends_on:
+      - debezium-kafka
+      - de_postgres
+      - de_mongo
+    environment:
+      BOOTSTRAP_SERVERS: debezium-kafka-1:9092
+      GROUP_ID: 1
+      CONFIG_STORAGE_TOPIC: my_connect_configs
+      OFFSET_STORAGE_TOPIC: my_connect_offsets
+      STATUS_STORAGE_TOPIC: my_connect_statuses
+      KEY_CONVERTER_SCHEMAS_ENABLE: "false"
+      VALUE_CONVERTER_SCHEMAS_ENABLE: "false"
+      CONNECT_KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      CONNECT_VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      CONNECT_REST_ADVERTISED_HOST_NAME: debezium-connect-1
+      CONNECT_PLUGIN_PATH: /kafka/connect
+    ports:
+      - "8083:8083"
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  mongo_data:
